@@ -1,0 +1,114 @@
+range: [0, 28, 0, 28]
+pixel_size: [224, 224, 3]
+
+# layouts are defined here with obstacle polygons on a 28x28 grid with (0,0) in the bottom-left corner
+# during processing it will be converted into a 224x224 image
+layouts:
+  - polygons: [[[0, 0], [8, 0], [8, 8], [0, 8]], [[0, 20], [8, 20], [8, 28], [0, 28]], [[20, 0], [28, 0], [28, 8], [20, 8]], [[20, 20], [28, 20], [28, 28], [20, 28]]]
+    name: cross
+  - polygons: [[[0, 0], [8, 0], [8, 8], [0, 8]], [[0, 20], [8, 20], [8, 28], [0, 28]], [[20, 0], [28, 0], [28, 28], [20, 28]]]
+    name: t-shaped
+
+
+# paths are defined in meters relative to the (0, 0) point.
+# the (0, 0) point is set so that the whole square is 4 meters behind, 10 meters forward and 7 meters each side.
+# on the x-axis, positive is forward and negative is behind
+# on the y-axis, positive is right and negative is left
+paths:
+  - layout: cross
+    orientation: left
+    speed: regular
+    sp: [-4.0, 0]
+    segments:
+      - sp: [-4.0, 0]
+        ep: [0.4, 0.0]
+        ttraj: line
+        mp: 3
+      - sp: [0.4, 0.0]
+        ep: [4.95, -4.2] # [17.9, 22.4]
+        ttraj: arc
+        mp: 3
+        theta: 60
+        inv: true
+      - sp: [4.95, -4.2]
+        ep: [5.0, -7.0] # [18.0, 28.0]
+        ttraj: line
+        mp: 2
+  - layout: cross
+    orientation: straight
+    speed: regular
+    sp: [-4.0, 0]
+    segments:
+      - sp: [-4.0, 0]
+        ep: [3.0, 0.0] # [14.0, 14.0]
+        ttraj: line
+        mp: 5
+      - sp: [3.0, 0.0]
+        ep: [10.0, 0.0] # [28.0, 14.0]
+        ttraj: line
+        mp: 4
+  - layout: cross
+    orientation: right
+    speed: regular
+    sp: [-4.0, 0]
+    segments:
+      - sp: [-4.0, 0]
+        ep: [0.4, 0.0]
+        ttraj: line
+        mp: 3
+      - sp: [0.4, 0.0]
+        ep: [4.95, 4.2]
+        ttraj: arc
+        mp: 3
+        theta: 60
+        inv: false
+      - sp: [4.95, 4.2]
+        ep: [5.0, 7.0]
+        ttraj: line
+        mp: 2
+  - layout: t-shaped
+    orientation: left
+    speed: regular
+    sp: [-4.0, 0]
+    segments:
+      - sp: [-4.0, 0]
+        ep: [0.4, 0.0]
+        ttraj: line
+        mp: 3
+      - sp: [0.4, 0.0]
+        ep: [4.95, -4.2]
+        ttraj: arc
+        mp: 3
+        theta: 60
+        inv: true
+      - sp: [4.95, -4.2]
+        ep: [5.0, -7.0]
+        ttraj: line
+        mp: 2
+  - layout: t-shaped
+    orientation: right
+    speed: regular
+    sp: [-4.0, 0]
+    segments:
+      - sp: [-4.0, 0]
+        ep: [0.4, 0.0]
+        ttraj: line
+        mp: 3
+      - sp: [0.4, 0.0]
+        ep: [4.95, 4.2]
+        ttraj: arc
+        mp: 3
+        theta: 60
+        inv: false
+      - sp: [4.95, 4.2]
+        ep: [5.0, 7.0]
+        ttraj: line
+        mp: 2
+
+trajectory:
+  n_train: 1000
+  n_test: 1000
+  noise_t: 0.0
+  noise_n: 0.2
+  past_size: 4
+  future_size: 8
